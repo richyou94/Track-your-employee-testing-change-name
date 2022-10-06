@@ -33,3 +33,4 @@ CREATE TABLE employee (
 );
 
 
+SELECT DATABASE();

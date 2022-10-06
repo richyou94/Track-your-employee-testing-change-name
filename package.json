@@ -20,6 +20,8 @@
   "dependencies": {
     "inquirer": "^8.2.4",
     "mysql2": "^2.3.3",
-    "console.table": "^0.10.0"
+    "console.table": "^0.10.0",
+    "dotenv": "^8.2.0",
+    "sequelize": "^6.3.5"
   }
 }
