@@ -1,0 +1,19 @@
+{
+  "name": "track-your-employee-",
+  "version": "1.0.0",
+  "description": "CMS for tracking employees",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YichanYouRichard/Track-your-employee-.git"
+  },
+  "author": "Richard You",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YichanYouRichard/Track-your-employee-/issues"
+  },
+  "homepage": "https://github.com/YichanYouRichard/Track-your-employee-#readme"
+}
