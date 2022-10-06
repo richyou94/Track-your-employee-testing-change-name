@@ -4,7 +4,8 @@
   "description": "CMS for tracking employees",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/YichanYouRichard/Track-your-employee-/issues"
   },
-  "homepage": "https://github.com/YichanYouRichard/Track-your-employee-#readme"
+  "homepage": "https://github.com/YichanYouRichard/Track-your-employee-#readme",
+  "dependencies": {
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3",
+    "console.table": "^0.10.0"
+  }
 }
