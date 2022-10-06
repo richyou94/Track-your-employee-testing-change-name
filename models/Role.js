@@ -16,7 +16,7 @@ Role.init(
             allowNull: false
         },
         salary: {
-            type: DataTypes.DECIMAL(5,2),
+            type: DataTypes.DECIMAL,
             allowNull: false
         },
         department_id: {
