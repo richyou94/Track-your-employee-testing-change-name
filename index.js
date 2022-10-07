@@ -14,6 +14,15 @@ const db = mysql.createConnection(
     console.log(`Connected to the employees_db database.`)
 );
 
+// const pool = mysql.createPool({
+//     host: 'localhost',
+//     user: process.env.DB_USER,
+//     database: process.env.DB_NAME,
+//     password: process.env.DB_PASSWORD,
+//     waitForConnections: true,
+//     connectionLimit: 10,
+//     queueLimit: 0
+// });
 
 console.log(`
 ,______________________________________________________
@@ -103,8 +112,14 @@ function appMenu() {
         console.log("you clicked add role function");
         initOption();
     };
-    async function viewDepartment() {
-        
+    function viewDepartment() {
+        db.query({
+            sql: 'SELECT * FROM department', 
+            rowsAsArray: true
+        }, function (err, results, fields) {
+            
+            console.log(results);
+        })
         initOption();        
     };
     function addDepartment() {
