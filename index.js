@@ -1,7 +1,7 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const cTable = require('console.table');
-const { default: inquirer } = require('inquirer');
+const cTable = require('console.table')
+const { Department, Role, Employee } = require('./models');
 require('dotenv').config();
 
 const db = mysql.createConnection(
@@ -35,8 +35,8 @@ console.log(`
 `)
 
 function appMenu() {
+    console.log('Welcome to the Employee Manager CMS application!')
     function initOption() {
-        console.log('Welcome to the Employee Manager CMS application!')
         inquirer
             .prompt([
                 {
@@ -103,13 +103,13 @@ function appMenu() {
         console.log("you clicked add role function");
         initOption();
     };
-    function viewDepartment() {
-        console.log("you clicked view department function");
-        initOption();
+    async function viewDepartment() {
+        
+        initOption();        
     };
     function addDepartment() {
-        console.log("you clicked add department function");
         initOption();
+        
     };
     function quit() {
         console.log("you clicked quit function");
