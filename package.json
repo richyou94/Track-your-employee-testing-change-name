@@ -18,10 +18,11 @@
   },
   "homepage": "https://github.com/YichanYouRichard/Track-your-employee-#readme",
   "dependencies": {
-    "inquirer": "^8.2.4",
-    "mysql2": "^2.3.3",
     "console.table": "^0.10.0",
     "dotenv": "^8.2.0",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3",
+    "mysql2-promise": "^0.1.4",
     "sequelize": "^6.3.5"
   }
 }
