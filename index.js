@@ -94,8 +94,12 @@ function initOption() {
 
 
 function viewEmployee() {
-    console.log("you clicked view Employee function");
-    initOption();
+    console.log(`-----------Employee List-----------`) 
+    const sql = 'SELECT employee.id AS id, employee.name AS employee FROM department';
+    db.query(sql, (err, rows) => {
+        console.table(rows);
+        initOption();
+    });
 };
 
 function addEmployee() {
@@ -109,8 +113,12 @@ function updateRole() {
 };
 
 function viewRole() {
-    console.log("you clicked view role function");
-    initOption();
+    console.log(`-----------Role List-----------`) 
+    const sql = 'SELECT role.id AS id, role.title AS title, department.name AS department, role.salary AS salary FROM role INNER JOIN department ON role.department_id = department.id';
+    db.query(sql, (err, rows) => {
+        console.table(rows);
+        initOption();
+    });
 };
 
 function addRole() {
@@ -120,7 +128,7 @@ function addRole() {
 
 function viewDepartment() {  
     console.log(`-----------Department List-----------`) 
-    const sql = 'SELECT department.id AS id, department.name AS department FROM department';
+    const sql = 'SELECT department.id AS id, department.name AS name FROM department ORDER BY name';
     db.query(sql, (err, rows) => {
         console.table(rows);
         initOption();
