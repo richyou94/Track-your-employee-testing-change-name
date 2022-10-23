@@ -94,8 +94,30 @@ function initOption() {
 
 
 function viewEmployee() {
-    console.log(`-----------Employee List-----------`) 
-    const sql = 'SELECT employee.id AS id, employee.first_name AS first_name, employee.last_name AS last_name, role.title AS title, department.name AS department, role.salary AS salary, employee.manager_id AS manager FROM employee JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id';
+    console.log(`\n-----------------------------------Employee List-----------------------------------\n`) 
+    const sql = `
+    SELECT e1.id, 
+        e1.first_name, 
+        e1.last_name, 
+        role.title, 
+        department.name AS department, 
+        role.salary AS salary, 
+        CONCAT(e2.first_name, " ", e2.last_name) AS manager 
+    FROM employee e1 
+        LEFT JOIN employee e2
+            ON e1.manager_id = e2.id
+        JOIN role 
+            ON e1.role_id = role.id 
+        JOIN department 
+            ON role.department_id = department.id
+    `;
+    // CONCAT(employee.first_name, " ", employee.last_name) AS manager
+    // WHERE employee.id = employee.manager_id
+    // WHERE (employee.id IN (SELECT employee.manager_id FROM employee))
+    // 'SELECT CONCAT(employee.first_name, " ", employee.last_name) AS manager FROM employee WHERE (employee.id IN (SELECT employee.manager_id FROM employee))'
+    // `SELECT e1.id, e1.first_name, e1.last_name, e2.last_name AS Manager
+    // FROM employee e1
+    // LEFT JOIN employee e2 ON e1.manager_id = e2.id`
     db.query(sql, (err, rows) => {
         console.table(rows);
         initOption();
@@ -113,7 +135,7 @@ function updateRole() {
 };
 
 function viewRole() {
-    console.log(`-----------Role List-----------`) 
+    console.log(`\n-----------------Role List-----------------\n`) 
     const sql = 'SELECT role.id AS id, role.title AS title, department.name AS department, role.salary AS salary FROM role INNER JOIN department ON role.department_id = department.id';
     db.query(sql, (err, rows) => {
         console.table(rows);
@@ -127,7 +149,7 @@ function addRole() {
 };
 
 function viewDepartment() {  
-    console.log(`-----------Department List-----------`) 
+    console.log(`\n -----Department List----- \n`) 
     const sql = 'SELECT department.id AS id, department.name AS name FROM department ORDER BY name';
     db.query(sql, (err, rows) => {
         console.table(rows);
