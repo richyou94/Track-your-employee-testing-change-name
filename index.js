@@ -157,8 +157,27 @@ function viewDepartment() {
     });
 };
 
-function addDepartment() {
-    initOption();
+async function addDepartment() {
+    await inquirer
+        .prompt([
+            {
+                name: 'department',
+                message: 'What is the name of the department?',
+                type: 'input'
+            }
+        ])
+        .then((userInput) => {
+            let department = userInput.department;
+            const sql = `
+            INSERT INTO department (name)
+            VALUES ('${department}')
+            `
+            db.query(sql, (err, rows) => {});
+            console.log(`Added ${department} to the database`)
+            initOption();
+             
+        })
+    // initOption();
 };
 
 function quit() {
