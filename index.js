@@ -124,9 +124,74 @@ function viewEmployee() {
     });
 };
 
-function addEmployee() {
-    console.log("you clicked add employee function");
-    initOption();
+async function addEmployee() {
+    const sqlCount = 'SELECT COUNT(*) FROM role';
+    let roleList = [];
+    let employeeList = [];
+    db.query(sqlCount, (err, rows) => {
+        const objectSql = rows[0]
+        const countItem = Object.values(objectSql)[0];
+        const sqlRole = 'SELECT title FROM role'
+        db.query(sqlRole, (err, rows) => {
+            for (let i=0; i < countItem; i++) {
+                roleList.push(rows[i].title);
+            }
+            const sqlCountEmployee = 'SELECT COUNT(*) FROM employee';
+            db.query(sqlCountEmployee, (err, rows) => {
+                const objectSqlEmployee = rows[0];
+                const countEmployee = Object.values(objectSqlEmployee)[0];
+                const sqlEmployee = 'SELECT CONCAT(first_name, " ", last_name) AS manager FROM employee'
+                db.query(sqlEmployee, (err, rows) => {
+                    for (let i = 0; i < countEmployee; i++) {
+                        employeeList.push(rows[i].manager)
+                    }
+                    inquirer
+                        .prompt([
+                            {
+                                name: 'first_name',
+                                message: "What is the employee's first name?",
+                                type: 'input'
+                            },
+                            {
+                                name: 'last_name',
+                                message: "What is the employee's last name?",
+                                type: 'input'
+                            },
+                            {
+                                name: 'role', 
+                                message: "What is the employee's role?",
+                                type: 'list',
+                                choices: [...roleList]
+                            },
+                            {
+                                name: 'manager',
+                                message: "Who is the employee's manager?",
+                                type: 'list',
+                                choices: [...employeeList]
+                            }
+                        ])
+                        .then ((userInput) => {
+                            const roleId = roleList.indexOf(userInput.role) + 1;
+                            const firstName = userInput.first_name;
+                            const lastName = userInput.last_name;
+                            const manager = employeeList.indexOf(userInput.manager) + 1;
+                            const sql = `
+                            INSERT INTO employee
+                            (first_name, last_name, role_id, manager_id)
+                            VALUES
+                            ('${firstName}', '${lastName}', ${roleId}, ${manager})`
+                            db.query(sql, (err, rows) => {
+
+                            })
+                            console.log(`Added ${firstName} ${lastName} to the database`)
+                            initOption();
+                        })
+                    
+                })
+            })   
+        })
+    })
+    
 };
 
 function updateRole() {
@@ -143,9 +208,57 @@ function viewRole() {
     });
 };
 
-function addRole() {
-    console.log("you clicked add role function");
-    initOption();
+async function addRole() {
+    const sqlCount = 'SELECT COUNT(*) FROM department';
+    let departmentList = []
+    db.query(sqlCount, (err,rows) => {
+        const objectSql = rows[0]
+        // console.log(objectSql);
+        const countItem = Object.values(objectSql)[0];
+        const sqlDepartment = 'SELECT name FROM department'
+        db.query(sqlDepartment, (err, rows) => {
+            for (let i = 0; i < countItem; i++) {
+                departmentList.push(rows[i].name);
+            }
+            inquirer
+                .prompt([
+                    {
+                        name: 'name',
+                        message: 'What is the name of the role?',
+                        type: 'input'
+                    },
+                    {
+                        name: 'salary',
+                        message: 'What is the salary of the role?',
+                        type: 'number'
+                    },
+                    {
+                        name: 'department',
+                        message: 'Which department does the role belong to?',
+                        type: 'list',
+                        choices: [...departmentList]
+                    }
+                ])
+                .then((userInput) => {
+                    const departmentId = departmentList.indexOf(userInput.department) + 1;                    
+                    const title = userInput.name;
+                    const salary = userInput.salary;
+                    const sql = `
+                    INSERT INTO role 
+                    (title, salary, department_id)
+                    VALUES 
+                    ('${title}', ${salary}, ${departmentId})
+                    `
+                    db.query(sql, (err, rows) => {
+                        
+                    })
+                    console.log(`Added ${userInput.name} to the database.`)
+                    initOption();
+                })
+                
+        })
+    })
+    
 };
 
 function viewDepartment() {  
