@@ -194,9 +194,62 @@ async function addEmployee() {
     
 };
 
-function updateRole() {
-    console.log("you clicked update role function");
-    initOption();
+async function updateRole() {
+    const sqlCountEmployee = `SELECT COUNT(*) FROM employee`;
+    const employeeList = [];
+    const roleList = [];
+    db.query(sqlCountEmployee, (err, rows) => {
+        const objectSqlEmployee = rows[0]
+        const countEmployee = Object.values(objectSqlEmployee)[0];
+        const sqlCountRole = 'SELECT COUNT(*) FROM role';
+        db.query(sqlCountRole, (err, rows) => {
+            const objectSqlRole = rows[0];
+            const countRole = Object.values(objectSqlRole)[0];
+            const sqlEmployee = 'SELECT CONCAT(first_name, " ", last_name) AS employee FROM employee'
+            db.query(sqlEmployee, (err, rows) => {
+                for (let i = 0; i < countEmployee; i++) {
+                    employeeList.push(rows[i].employee)
+                }
+                sqlRole = 'SELECT title FROM role';
+                db.query(sqlRole, (err, rows) => {
+                    for (let i = 0; i < countRole; i++) {
+                        roleList.push(rows[i].title);
+                    }
+                    inquirer
+                        .prompt([
+                            {
+                                name: 'employee',
+                                message: "Which employee's role do you want to update?",
+                                type: 'list',
+                                choices: [...employeeList]
+                            },
+                            {
+                                name: 'role',
+                                message: "Which role do you want to assign the selected employee?",
+                                type: 'list',
+                                choices: [...roleList]
+                            }
+                        ])
+                        .then ((userInput) => {
+                            const selectedEmployeeId = employeeList.indexOf(userInput.employee) + 1;
+                            const selectedRoleId = roleList.indexOf(userInput.role) + 1;
+                            const sql = `
+                            UPDATE employee
+                            SET
+                                role_id = ${selectedRoleId}
+                            WHERE
+                                id = ${selectedEmployeeId}
+                            `
+                            console.log(sql);
+                            db.query(sql, (err, rows) => {})
+                            console.log("Updated employee's role")
+                            initOption();
+                        })
+                })
+            })
+        }) 
+    })
+    
 };
 
 function viewRole() {
